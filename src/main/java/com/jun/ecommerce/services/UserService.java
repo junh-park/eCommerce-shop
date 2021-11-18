@@ -1,44 +1,19 @@
 package com.jun.ecommerce.services;
 
 import java.util.List;
-import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.jun.ecommerce.data.UserRepository;
 import com.jun.ecommerce.domain.User;
-import com.jun.ecommerce.exceptions.ResourceNotFoundException;
 
-import lombok.NoArgsConstructor;
+public interface UserService {
 
-@Service
-public class UserService {
-	private UserRepository userRepo;
+	List<User> getAllUsers();
 
-	public UserService(UserRepository userRepo) {
-		this.userRepo = userRepo;
-	}
+	User addUser(User user);
 
-	public List<User> getAllUsers() {
-		return userRepo.findAll();
-	}
+	User getUserById(long id);
 
-	public User addUser(User user) {
-		return userRepo.save(user);
-	}
+	User deleteUserById(long id);
 
-	public User getUserById(long id) {
-		return userRepo.findById(id).orElseThrow(() -> 
-		new ResourceNotFoundException("The User could not be found"));
-	}
+	User updateUser(User updatedUser, Long id);
 
-	public void deleteUserById(long id) {
-		Optional<User> optional = userRepo.findById(id);
-		if(optional.isPresent()) {
-			userRepo.deleteById(optional.get().getId());
-		} else {
-			throw new ResourceNotFoundException("The user could not be found");
-		}
-	}
 }

@@ -1,9 +1,13 @@
 package com.jun.ecommerce.exceptions;
 
-public class ResourceNotFoundException extends RuntimeException {
+import lombok.NoArgsConstructor;
 
-	
-	public ResourceNotFoundException(String string) {
-		super(string);
+@NoArgsConstructor
+public class ResourceNotFoundException extends RuntimeException {
+	private String message;
+
+	public ResourceNotFoundException(String message) {
+		super(message);
+		this.message = message;
 	}
 }

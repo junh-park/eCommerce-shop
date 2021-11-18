@@ -5,12 +5,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.jun.ecommerce.services.UserService;
+import com.jun.ecommerce.services.UserServiceImpl;
 
 @SpringBootApplication(scanBasePackages = "com.jun")
-public class ECommerceClothesshopApplication {
+public class ECommerceShopApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(ECommerceClothesshopApplication.class, args);
+		SpringApplication.run(ECommerceShopApplication.class, args);
 	}
 }
