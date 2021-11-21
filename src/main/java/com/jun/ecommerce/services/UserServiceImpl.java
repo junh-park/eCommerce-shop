@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
@@ -38,19 +39,19 @@ public class UserServiceImpl implements UserService  {
 	//need to come back to this, to double check if the user already exists 
 	public User addUser(User user) {
 		if (user.getId() == null) {
-			log.info("New user " + user.getFirstName() + " " + user.getLastName() + " added");
+			log.info("New user added");
 			return userRepo.save(user);
 		} else {
 			throw new ResourceAlreadyExistsException("This user already exists");
 		}
 	}
 
-	public User getUserById(long id) {
+	public User getUserById(UUID id) {
 		return userRepo.findById(id).orElseThrow(() -> 
 			new ResourceNotFoundException("The User could not be found"));
 	}
 
-	public User deleteUserById(long id) {
+	public User deleteUserById(UUID id) {
 		User user = null;
 		Optional<User> optional = userRepo.findById(id);
 		if (optional.isPresent()) {
@@ -62,7 +63,7 @@ public class UserServiceImpl implements UserService  {
 		return user;
 	}
 
-	public User updateUser(User updatedUser, Long id) {
+	public User updateUser(User updatedUser, UUID id) {
 		return userRepo.findById(id).map(user -> {
 				user.setFirstName(updatedUser.getFirstName());
 				user.setLastName(updatedUser.getLastName());
@@ -73,4 +74,5 @@ public class UserServiceImpl implements UserService  {
 				return userRepo.save(updatedUser);
 			});
 	}
+
 }

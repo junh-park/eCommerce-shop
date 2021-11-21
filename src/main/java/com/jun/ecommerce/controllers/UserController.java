@@ -1,6 +1,7 @@
 package com.jun.ecommerce.controllers;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -46,17 +47,17 @@ public class UserController {
 	}
 
 	@GetMapping("/user/{id}")
-	public ResponseEntity<User> getUserById(@PathVariable long id) {
+	public ResponseEntity<User> getUserById(@PathVariable UUID id) {
 		return new ResponseEntity<User>(userService.getUserById(id), HttpStatus.OK);
 	}
 
 	@DeleteMapping("/user/{id}")
-	public ResponseEntity<User> deleteUserById(@PathVariable long id) {
+	public ResponseEntity<User> deleteUserById(@PathVariable UUID id) {
 		return new ResponseEntity<User>(userService.deleteUserById(id), HttpStatus.OK);
 	}
 	
 	@PutMapping("/user/{id}")
-	public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable Long id) {
+	public ResponseEntity<User> updateUser(@RequestBody User user, @PathVariable UUID id) {
 		return new ResponseEntity<>(userService.updateUser(user, id),HttpStatus.ACCEPTED);
 	}
 }

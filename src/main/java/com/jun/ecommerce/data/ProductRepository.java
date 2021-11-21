@@ -4,7 +4,8 @@ import java.util.UUID;
 
 import org.springframework.data.cassandra.repository.CassandraRepository;
 
-import com.jun.ecommerce.domain.User;
+import com.jun.ecommerce.domain.Product;
 
-public interface UserRepository extends CassandraRepository<User, UUID>{
+public interface ProductRepository extends CassandraRepository<Product, UUID>{
+
 }
