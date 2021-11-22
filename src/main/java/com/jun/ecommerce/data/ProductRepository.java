@@ -1,11 +1,12 @@
 package com.jun.ecommerce.data;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.data.cassandra.repository.CassandraRepository;
 
-import com.jun.ecommerce.domain.Product;
+import com.jun.ecommerce.domain.ProductsById;
 
-public interface ProductRepository extends CassandraRepository<Product, UUID>{
-
+public interface ProductRepository extends CassandraRepository<ProductsById, UUID>{
+	List<ProductsById> findByCategory(String category);
 }

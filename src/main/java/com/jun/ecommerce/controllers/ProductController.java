@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.jun.ecommerce.domain.Product;
+import com.jun.ecommerce.domain.ProductsById;
 import com.jun.ecommerce.services.ProductService;
 
 import lombok.NoArgsConstructor;
@@ -24,31 +24,30 @@ import lombok.NoArgsConstructor;
 public class ProductController {
 	private ProductService productService;
 
-	@Autowired
 	public ProductController(ProductService productService) {
 		this.productService = productService;
 	}
 
 	@GetMapping("/products")
-	public ResponseEntity<List<Product>> getAllProducts(Model model) {
-		List<Product> products = productService.getAllProducts();
+	public ResponseEntity<List<ProductsById>> getAllProducts(Model model) {
+		List<ProductsById> products = productService.getAllProducts();
 		return new ResponseEntity<>(products, HttpStatus.OK);
 	}
 
 	@GetMapping("/product/{id}")
-	public ResponseEntity<Product> getProductById(Model model, @PathVariable UUID id) {
-		Product product = productService.getProductById(id);
+	public ResponseEntity<ProductsById> getProductById(Model model, @PathVariable UUID id) {
+		ProductsById product = productService.getProductById(id);
 		return new ResponseEntity<>(product, HttpStatus.OK);
 	}
 
 	@PostMapping("/product")
-	public ResponseEntity<Product> addNewUser(@RequestBody Product newProduct) {
-		Product savedProduct = productService.addProduct(newProduct);
+	public ResponseEntity<ProductsById> addNewUser(@RequestBody ProductsById newProduct) {
+		ProductsById savedProduct = productService.addProduct(newProduct);
 		return new ResponseEntity<>(savedProduct, HttpStatus.ACCEPTED);
 	}
 
 	@DeleteMapping("/product/{id}")
-	public ResponseEntity deleteUser(@PathVariable UUID id) {
+	public ResponseEntity<ProductsById> deleteUser(@PathVariable UUID id) {
 		productService.deleteProduct(id);
 		return ResponseEntity.ok().build();
 	}

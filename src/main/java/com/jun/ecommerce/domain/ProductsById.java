@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Data
 @Table(value = "product_by_id")
-public class Product {
+public class ProductsById {
 	
 	@Id
 	@PrimaryKeyColumn(name = "prodict_id", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
@@ -39,11 +39,11 @@ public class Product {
 	@CassandraType(type = Name.TEXT)
 	private String imageUrl;
 
-	public Product() {
+	public ProductsById() {
 		this.id = UUID.randomUUID();
 	}
 	
-	public Product(String name, String category, String manufacturer, double price, String desc, String imageUrl) {
+	public ProductsById(String name, String category, String manufacturer, double price, String desc, String imageUrl) {
 		this.id = UUID.randomUUID();
 		this.name = name;
 		this.category = category;

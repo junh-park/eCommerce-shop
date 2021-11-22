@@ -28,11 +28,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import com.datastax.oss.driver.api.core.uuid.Uuids;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jun.ecommerce.controllers.ProductController;
-import com.jun.ecommerce.domain.Product;
+import com.jun.ecommerce.domain.ProductsById;
 import com.jun.ecommerce.services.ProductService;
 import com.jun.ecommerce.services.ProductServiceImpl;
 
@@ -55,7 +54,7 @@ public class ProductControllerTest {
 
 	@Test
 	public void whenGetAllRequested_shoudReturnAllProduts() throws Exception {
-		List<Product> products = List.of(new Product());
+		List<ProductsById> products = List.of(new ProductsById());
 		products.get(0).setName("Chair");
 		products.get(0).setCategory("Chair");
 
@@ -68,7 +67,7 @@ public class ProductControllerTest {
 
 	@Test
 	public void whenFindByID_shouldReturnTheProduct() throws Exception {
-		Product product = new Product();
+		ProductsById product = new ProductsById();
 		UUID randomUUID = UUID.randomUUID();
 		product.setId(randomUUID);
 		when(service.getProductById(randomUUID)).thenReturn(product);
@@ -80,7 +79,7 @@ public class ProductControllerTest {
 
 	@Test
 	public void whenAddNewProduct_shouldReturnTheProduct() throws Exception {
-		Product product = new Product();
+		ProductsById product = new ProductsById();
 		product.setName("desk");
 		when(service.addProduct(product)).thenReturn(product);
 
@@ -94,7 +93,7 @@ public class ProductControllerTest {
 	
 	@Test
 	public void whenDeleteProduct_shouldReturnDeletedProduct() throws Exception {
-		Product product = new Product();
+		ProductsById product = new ProductsById();
 		UUID randomUUID = UUID.randomUUID();
 		product.setId(randomUUID);
 		product.setName("desk");
@@ -107,7 +106,7 @@ public class ProductControllerTest {
 		verify(service, times(1)).deleteProduct(randomUUID);
 	}
 
-	public static String mapJsonToString(final Product product) {
+	public static String mapJsonToString(final ProductsById product) {
 		try {
 			return new ObjectMapper().writeValueAsString(product);
 		} catch (JsonProcessingException e) {
