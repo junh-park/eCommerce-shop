@@ -20,7 +20,7 @@ import com.jun.ecommerce.domain.ProductsByCategory;
 @DataCassandraTest
 public class ProductByCategoryRepoTest {
 	@Autowired
-	private ProductByCategoryRepository repo;
+	private ProductsByCategoryRepository repo;
 	
 	private ProductsByCategory product;
 
@@ -36,7 +36,6 @@ public class ProductByCategoryRepoTest {
 	}
 	
 	@Test
-	@Rollback(true)
 	public void whenAddingNewProduct_shouldReturnNewProduct() {
 		repo.deleteByCategory("Chair");
 
@@ -46,7 +45,6 @@ public class ProductByCategoryRepoTest {
 	}
 	
 	@Test
-	@Rollback(true)
 	public void whenFindingProductsByCategory_shouldReturnProductsByCategory() {
 		repo.deleteByCategory("Chair");
 		
@@ -59,7 +57,6 @@ public class ProductByCategoryRepoTest {
 	}
 	
 	@Test
-	@Rollback(true)
 	public void whenDuplicatedProductAdded_shouldReturn1() {
 		repo.deleteByCategory("Chair");
 		

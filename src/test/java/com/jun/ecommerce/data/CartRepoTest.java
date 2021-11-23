@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.is;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,10 +20,12 @@ public class CartRepoTest {
 	@Autowired
 	private CartRepository repo;
 	private Cart cart1;
+	private Cart cart2;
 
 	@BeforeEach
 	public void setup() {
-		cart1 = new Cart("junid", "junpark@hotmail.com");
+		cart1 = new Cart("junid", UUID.randomUUID(), true, "melbourne");
+		cart2 = new Cart("junid", UUID.randomUUID(), false, "melbourne");
 	}
 
 	@Test
@@ -43,7 +46,7 @@ public class CartRepoTest {
 
 	@Test
 	public void whenDeleteFromTheCartByUserIdAndCartId_shouldDelteTheProduct() {
-		repo.deleteByUserIdIn(List.of(cart1.getUserId()));
+		repo.deleteByUserIdIn(List.of(cart1.getUserId(), cart2.getUserId()));
 
 		repo.save(cart1);
 

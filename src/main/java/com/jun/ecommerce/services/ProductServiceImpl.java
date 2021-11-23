@@ -6,36 +6,59 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.jun.ecommerce.data.ProductByCategoryRepository;
-import com.jun.ecommerce.data.ProductRepository;
+import com.jun.ecommerce.data.ProductsByCategoryRepository;
+import com.jun.ecommerce.data.ProductByIdRepository;
 import com.jun.ecommerce.domain.ProductsById;
+import com.jun.ecommerce.domain.ProductsByCart;
 import com.jun.ecommerce.domain.ProductsByCategory;
+import com.jun.ecommerce.exceptions.ResourceAlreadyExistsException;
 import com.jun.ecommerce.exceptions.ResourceNotFoundException;
 
 @Service
 public class ProductServiceImpl implements ProductService {
-	private ProductRepository productRepo;
-	private ProductByCategoryRepository productByCategoryRepo;
+	private ProductByIdRepository productByIdRepo;
+	private ProductsByCategoryRepository productByCategoryRepo;
 
-	public ProductServiceImpl(ProductRepository productRepo, ProductByCategoryRepository productByCategoryRepo) {
-		this.productRepo = productRepo;
+	public ProductServiceImpl(ProductByIdRepository productRepo, ProductsByCategoryRepository productByCategoryRepo) {
+		this.productByIdRepo = productRepo;
 		this.productByCategoryRepo = productByCategoryRepo;
 	}
 
 	public List<ProductsById> getAllProducts() {
-		return null;
+		return productByIdRepo.findAll();
 	}
-
+	
 	public ProductsById getProductById(UUID id) {
-		return null;
-	}
+		return productByIdRepo.findById(id)
+				.orElseThrow(ResourceNotFoundException::new);	}
 
 	public ProductsById addProduct(ProductsById product) {
-		return null;
+		Optional<ProductsById> optProduct = productByIdRepo.findById(product.getId());
+		
+		if(optProduct.isEmpty()) {
+			ProductsById newProduct = new ProductsById(product.getName(), product.getCategory(), product.getManufacturer(),
+					product.getPrice(), product.getDesc(), product.getImageUrl());
+			ProductsByCategory newProductByCategory = idToCategoryMapper(newProduct);
+			productByCategoryRepo.save(newProductByCategory);
+			return productByIdRepo.save(product);
+		} else {
+			throw new ResourceAlreadyExistsException();
+		}
 	}
 
 	public void deleteProduct(UUID id) {
+		Optional<ProductsById> optProduct = productByIdRepo.findById(id);
 		
+		if(optProduct.isPresent()) {
+			ProductsByCategory newProduct = new ProductsByCategory();
+			newProduct.setId(optProduct.get().getId());
+			newProduct.setCategory(optProduct.get().getCategory());
+
+			productByCategoryRepo.delete(newProduct);
+			productByIdRepo.deleteById(optProduct.get().getId());
+		} else {
+			throw new ResourceNotFoundException();
+		}
 	}
 
 	public List<ProductsByCategory> getAllProductsByCategory(String category) {
@@ -43,8 +66,40 @@ public class ProductServiceImpl implements ProductService {
 				.orElseThrow(ResourceNotFoundException::new);
 	}
 
-	public List<ProductsByCategory> updateProduct(ProductsById product) {
+	public ProductsByCategory updateProduct(ProductsByCategory product) {
+		Optional<ProductsByCategory> returned = productByCategoryRepo
+				.findByIdAndCategory(product.getId(), product.getCategory());
 		
-		return null;
+		if(returned.isPresent()) {
+			productByIdRepo.save(categoryToIdMapper(product));
+			return productByCategoryRepo.save(product);
+		} else {
+			throw new ResourceNotFoundException();
+		}
+	}
+	
+	public ProductsById updateProduct(ProductsById product) {
+		Optional<ProductsById> returned = productByIdRepo.findById(product.getId());
+		
+		if(returned.isPresent()) {
+			productByCategoryRepo.save(idToCategoryMapper(product));
+			return productByIdRepo.save(product);
+		} else {
+			throw new ResourceNotFoundException();
+		}
+	}
+	
+	private ProductsByCategory idToCategoryMapper(ProductsById product) {
+		ProductsByCategory newProduct = new ProductsByCategory(product.getName(), product.getCategory(), product.getManufacturer(),
+				product.getPrice(), product.getDesc(), product.getImageUrl());
+		newProduct.setId(product.getId());
+		return newProduct;
+	}
+	
+	private ProductsById categoryToIdMapper(ProductsByCategory product) {
+		ProductsById newProduct = new ProductsById(product.getName(), product.getCategory(), product.getManufacturer(),
+				product.getPrice(), product.getDesc(), product.getImageUrl());
+		newProduct.setId(product.getId());
+		return newProduct;
 	}
 }

@@ -3,6 +3,7 @@ package com.jun.ecommerce.data;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -16,7 +17,7 @@ import com.jun.ecommerce.domain.ProductsById;
 @DataCassandraTest
 public class ProductRepoTest {
 	@Autowired
-	private ProductRepository repo;
+	private ProductByIdRepository repo;
 	
 	private ProductsById product;
 
@@ -55,5 +56,12 @@ public class ProductRepoTest {
 		Optional<ProductsById> optProduct = repo.findById(randomUUID);
 		assertThat(optProduct.isEmpty(), is(true));
 	}
-	
+
+	@Test
+	public void whenFindingByCategory_shouldReturnProductsByCategory() {
+		
+		List<ProductsById> findByCategory = repo.findByCategory("chair");
+		
+		assertThat(findByCategory.get(1).getCategory(), is("chair"));
+	}
 }

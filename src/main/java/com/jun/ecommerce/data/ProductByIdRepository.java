@@ -7,6 +7,6 @@ import org.springframework.data.cassandra.repository.CassandraRepository;
 
 import com.jun.ecommerce.domain.ProductsById;
 
-public interface ProductRepository extends CassandraRepository<ProductsById, UUID>{
+public interface ProductByIdRepository extends CassandraRepository<ProductsById, UUID>{
 	List<ProductsById> findByCategory(String category);
 }
