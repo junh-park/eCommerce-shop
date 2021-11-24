@@ -6,11 +6,11 @@ import java.util.UUID;
 
 import org.springframework.data.cassandra.repository.CassandraRepository;
 
-import com.jun.ecommerce.domain.Cart;
+import com.jun.ecommerce.domain.CartsByUser;
 
-public interface CartRepository extends CassandraRepository<Cart, String>{
+public interface CartsByUserRepository extends CassandraRepository<CartsByUser, String>{
 	void deleteByUserIdAndCartId(String userId, UUID cartId);
 	void deleteByUserIdIn(List<String> ids);
-	Optional<Cart> findByUserIdAndCartId(String userId, UUID cartId);
+	Optional<CartsByUser> findByUserIdAndCartId(String userId, UUID cartId);
 }
 

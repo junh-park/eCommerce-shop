@@ -14,13 +14,13 @@ import lombok.Data;
 
 @Data
 @Table("carts_by_user")
-public class Cart {
+public class CartsByUser {
 
-	public Cart() {
+	public CartsByUser() {
 		this.cartId = UUID.randomUUID();
 	}
 
-	public Cart(String userId, UUID cartId, boolean active, String address) {
+	public CartsByUser(String userId, UUID cartId, boolean active, String address) {
 		this.userId = userId;
 		this.cartId = cartId;
 		this.active = active;

@@ -13,19 +13,19 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.cassandra.DataCassandraTest;
 
-import com.jun.ecommerce.domain.Cart;
+import com.jun.ecommerce.domain.CartsByUser;
 
 @DataCassandraTest
-public class CartRepoTest {
+public class CartsByUserRepoTest {
 	@Autowired
-	private CartRepository repo;
-	private Cart cart1;
-	private Cart cart2;
+	private CartsByUserRepository repo;
+	private CartsByUser cart1;
+	private CartsByUser cart2;
 
 	@BeforeEach
 	public void setup() {
-		cart1 = new Cart("junid", UUID.randomUUID(), true, "melbourne");
-		cart2 = new Cart("junid", UUID.randomUUID(), false, "melbourne");
+		cart1 = new CartsByUser("junid", UUID.randomUUID(), true, "melbourne");
+		cart2 = new CartsByUser("junid", UUID.randomUUID(), false, "melbourne");
 	}
 
 	@Test
@@ -39,7 +39,7 @@ public class CartRepoTest {
 	public void whenANewCartIsAdded_shouldAddAndReturnTheNewCart() {
 		repo.deleteByUserIdIn(List.of(cart1.getUserId()));
 
-		Cart newCart = repo.save(cart1);
+		CartsByUser newCart = repo.save(cart1);
 
 		assertThat(newCart, is(cart1));
 	}
@@ -52,7 +52,7 @@ public class CartRepoTest {
 
 		repo.deleteByUserIdAndCartId(cart1.getUserId(), cart1.getCartId());
 
-		Optional<Cart> optCart = repo.findByUserIdAndCartId(cart1.getUserId(), cart1.getCartId());
+		Optional<CartsByUser> optCart = repo.findByUserIdAndCartId(cart1.getUserId(), cart1.getCartId());
 		assertThat(optCart.isEmpty(), is(true));
 	}
 }

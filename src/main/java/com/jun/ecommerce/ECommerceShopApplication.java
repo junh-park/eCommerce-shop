@@ -25,4 +25,5 @@ public class ECommerceShopApplication {
 		Path bundle = properties.getSecureConnectBundle().toPath();
 		return builder-> builder.withCloudSecureConnectBundle(bundle);
 	}
+	
 }
