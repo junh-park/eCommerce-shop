@@ -55,4 +55,27 @@ public class CartsByUserRepoTest {
 		Optional<CartsByUser> optCart = repo.findByUserIdAndCartId(cart1.getUserId(), cart1.getCartId());
 		assertThat(optCart.isEmpty(), is(true));
 	}
+	
+	@Test
+	public void whenCartUpdated_shouldUpdateAndReturnTheCart() {
+		repo.deleteByUserIdIn(List.of(cart1.getUserId(), cart2.getUserId()));
+
+		repo.save(cart1);
+		
+		CartsByUser updatedCart = new CartsByUser();
+		updatedCart.setUserId(cart1.getUserId());
+		updatedCart.setCartId(cart1.getCartId());
+		updatedCart.setActive(false);
+		updatedCart.setAddress("sydney");
+		
+		CartsByUser optCart = repo.findByUserIdAndCartId(cart1.getUserId(), cart1.getCartId()).get();
+		
+		optCart.setActive(updatedCart.isActive());
+		optCart.setCartId(updatedCart.getCartId());
+		optCart.setAddress(updatedCart.getAddress());
+		
+		CartsByUser savedCart = repo.save(optCart);
+		
+		assertThat(savedCart, is(updatedCart));
+	}
 }

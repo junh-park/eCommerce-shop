@@ -14,7 +14,7 @@ import lombok.Data;
 
 @Data
 @Table(value = "product_by_id")
-public class ProductsById {
+public class ProductsById implements Product{
 	
 	@Id
 	@PrimaryKeyColumn(name = "prodict_id", ordinal = 0, type = PrimaryKeyType.PARTITIONED)

@@ -15,7 +15,7 @@ import lombok.Data;
 
 @Data
 @Table(value = "product_by_category")
-public class ProductsByCategory {
+public class ProductsByCategory implements Product{
 
 	@PrimaryKeyColumn(name = "product_category", ordinal = 0, type = PrimaryKeyType.PARTITIONED)
 	@CassandraType(type = Name.TEXT)

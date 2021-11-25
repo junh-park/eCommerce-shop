@@ -12,5 +12,6 @@ public interface CartsByUserRepository extends CassandraRepository<CartsByUser, 
 	void deleteByUserIdAndCartId(String userId, UUID cartId);
 	void deleteByUserIdIn(List<String> ids);
 	Optional<CartsByUser> findByUserIdAndCartId(String userId, UUID cartId);
+	Optional<List<CartsByUser>> findAllByUserId(String userId);
 }
 
