@@ -1,5 +1,6 @@
 package com.jun.ecommerce.data;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -12,5 +13,5 @@ public interface ProductByCartRepository extends CassandraRepository<ProductsByC
 	void deleteByCartId(UUID cartId);
 	void deleteByCartIdAndProductId(UUID cartId, UUID productId);
 	Optional<ProductsByCart> findByCartIdAndProductId(UUID cartId, UUID productId);
-	
+	Optional<List<ProductsByCart>> findByCartId(UUID cartId);
 }

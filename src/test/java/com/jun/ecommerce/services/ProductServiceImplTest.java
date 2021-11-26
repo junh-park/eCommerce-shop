@@ -34,15 +34,16 @@ public class ProductServiceImplTest {
 	
 	@Mock
 	private ProductsByCategoryRepository byCategoryRepo;
-	
+
 	@InjectMocks
 	private ProductServiceImpl service;
 
 	private ProductsByCategory product1;
 	private ProductsByCategory product2;
 	private ProductsById product3;
-
 	private ProductsById product4;
+
+	private List<ProductsByCategory> products;
 	
 	@BeforeEach
 	public void setup() {
@@ -50,6 +51,8 @@ public class ProductServiceImplTest {
 		product2 = new ProductsByCategory("pretty good chair", "chair", "junini", 30, "It's a pretty decent chair", "https://res.cloudinary.com/rjliving-/image/fetch/f_auto,q_auto/https://www.rjliving.com.au/assets/full/SW-13-11.jpg?20210309035246");
 		product3 = new ProductsById("a comfortable bed", "bed", "junini", 30, "It's a decent bed", "https://www.beddingwarehouse.com.au/wp-content/uploads/2020/08/Milan-Bed-Frame.jpg");
 		product4 = new ProductsById("a really really good bed", "bed", "junini", 100, "It's a really really good bed", "https://www.beddingwarehouse.com.au/wp-content/uploads/2020/08/Milan-Bed-Frame.jpg");
+
+		products = List.of(product1, product2);
 	}
 	
 	@Test
@@ -58,7 +61,7 @@ public class ProductServiceImplTest {
 		
 		when(byCategoryRepo.findByCategory("chair")).thenReturn(Optional.ofNullable(products));
 		
-		List<ProductsByCategory> allProductsByChair = service.getAllProductsByCategory("chair");
+		List<ProductsByCategory> allProductsByChair = service.getProductsByCategory("chair");
 		
 		assertThat(allProductsByChair, hasSize(2));
 		assertThat(allProductsByChair, containsInAnyOrder(product1,product2));
@@ -141,4 +144,5 @@ public class ProductServiceImplTest {
 		verify(byCategoryRepo,times(1)).delete(any(ProductsByCategory.class));
 		verify(productRepo, times(1)).deleteById(product3.getId());
 	}
+
 }

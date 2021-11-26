@@ -16,6 +16,6 @@ public interface ProductService {
 
 	void deleteProduct(UUID id);
 
-	List<ProductsByCategory> getAllProductsByCategory(String category);
+	List<ProductsByCategory> getProductsByCategory(String category);
 
 }

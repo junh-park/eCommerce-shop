@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.jun.ecommerce.data.ProductsByCategoryRepository;
@@ -14,15 +15,13 @@ import com.jun.ecommerce.domain.ProductsByCategory;
 import com.jun.ecommerce.exceptions.ResourceAlreadyExistsException;
 import com.jun.ecommerce.exceptions.ResourceNotFoundException;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @Service
 public class ProductServiceImpl implements ProductService {
-	private ProductByIdRepository productByIdRepo;
-	private ProductsByCategoryRepository productByCategoryRepo;
-
-	public ProductServiceImpl(ProductByIdRepository productRepo, ProductsByCategoryRepository productByCategoryRepo) {
-		this.productByIdRepo = productRepo;
-		this.productByCategoryRepo = productByCategoryRepo;
-	}
+	private final ProductByIdRepository productByIdRepo;
+	private final ProductsByCategoryRepository productByCategoryRepo;
 
 	public List<ProductsById> getAllProducts() {
 		return productByIdRepo.findAll();
@@ -61,7 +60,7 @@ public class ProductServiceImpl implements ProductService {
 		}
 	}
 
-	public List<ProductsByCategory> getAllProductsByCategory(String category) {
+	public List<ProductsByCategory> getProductsByCategory(String category) {
 		return productByCategoryRepo.findByCategory(category)
 				.orElseThrow(ResourceNotFoundException::new);
 	}
@@ -102,4 +101,5 @@ public class ProductServiceImpl implements ProductService {
 		newProduct.setId(product.getId());
 		return newProduct;
 	}
+
 }
