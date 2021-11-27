@@ -57,11 +57,4 @@ public class ProductRepoTest {
 		assertThat(optProduct.isEmpty(), is(true));
 	}
 
-	@Test
-	public void whenFindingByCategory_shouldReturnProductsByCategory() {
-		
-		List<ProductsById> findByCategory = repo.findByCategory("chair");
-		
-		assertThat(findByCategory.get(1).getCategory(), is("chair"));
-	}
 }

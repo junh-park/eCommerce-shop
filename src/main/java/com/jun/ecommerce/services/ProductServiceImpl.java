@@ -50,7 +50,7 @@ public class ProductServiceImpl implements ProductService {
 		
 		if(optProduct.isPresent()) {
 			ProductsByCategory newProduct = new ProductsByCategory();
-			newProduct.setId(optProduct.get().getId());
+			newProduct.setProductId(optProduct.get().getId());
 			newProduct.setCategory(optProduct.get().getCategory());
 
 			productByCategoryRepo.delete(newProduct);
@@ -67,7 +67,7 @@ public class ProductServiceImpl implements ProductService {
 
 	public ProductsByCategory updateProduct(ProductsByCategory product) {
 		Optional<ProductsByCategory> returned = productByCategoryRepo
-				.findByIdAndCategory(product.getId(), product.getCategory());
+				.findByProductIdAndCategory(product.getProductId(), product.getCategory());
 		
 		if(returned.isPresent()) {
 			productByIdRepo.save(categoryToIdMapper(product));
@@ -91,14 +91,14 @@ public class ProductServiceImpl implements ProductService {
 	private ProductsByCategory idToCategoryMapper(ProductsById product) {
 		ProductsByCategory newProduct = new ProductsByCategory(product.getName(), product.getCategory(), product.getManufacturer(),
 				product.getPrice(), product.getDesc(), product.getImageUrl());
-		newProduct.setId(product.getId());
+		newProduct.setProductId(product.getId());
 		return newProduct;
 	}
 	
 	private ProductsById categoryToIdMapper(ProductsByCategory product) {
 		ProductsById newProduct = new ProductsById(product.getName(), product.getCategory(), product.getManufacturer(),
 				product.getPrice(), product.getDesc(), product.getImageUrl());
-		newProduct.setId(product.getId());
+		newProduct.setId(product.getProductId());
 		return newProduct;
 	}
 

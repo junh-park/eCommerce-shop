@@ -23,7 +23,7 @@ public class ProductsByCategory implements Product{
 	
 	@CassandraType(type = Name.UUID)
 	@PrimaryKeyColumn(name = "product_id",type = PrimaryKeyType.CLUSTERED, ordering = Ordering.DESCENDING)
-	private UUID id;
+	private UUID productId;
 	
 	@Column("product_name")
 	@CassandraType(type = Name.TEXT)
@@ -46,11 +46,11 @@ public class ProductsByCategory implements Product{
 	private String imageUrl;
 
 	public ProductsByCategory() {
-		this.id = UUID.randomUUID();
+		this.productId = UUID.randomUUID();
 	}
 	
 	public ProductsByCategory(String name, String category, String manufacturer, double price, String desc, String imageUrl) {
-		this.id = UUID.randomUUID();
+		this.productId = UUID.randomUUID();
 		this.name = name;
 		this.category = category;
 		this.manufacturer = manufacturer;

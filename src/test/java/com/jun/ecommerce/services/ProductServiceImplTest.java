@@ -72,14 +72,14 @@ public class ProductServiceImplTest {
 	public void whenUpdateRequest_shouldUpdateAndReturnUpdatedProduct() {	
 		product1.setPrice(100);
 		
-		when(byCategoryRepo.findByIdAndCategory(product1.getId(), product1.getCategory()))
+		when(byCategoryRepo.findByProductIdAndCategory(product1.getProductId(), product1.getCategory()))
 			.thenReturn(Optional.ofNullable(product1));
 		when(byCategoryRepo.save(product1)).thenReturn(product1);
 		
 		ProductsByCategory updatedProduct = service.updateProduct(product1);
 		
 		assertThat(updatedProduct, is(product1));
-		verify(byCategoryRepo, times(1)).findByIdAndCategory(product1.getId(), product1.getCategory());
+		verify(byCategoryRepo, times(1)).findByProductIdAndCategory(product1.getProductId(), product1.getCategory());
 		verify(byCategoryRepo, times(1)).save(product1);
 		verify(productRepo,times(1)).save(any(ProductsById.class));
 	}

@@ -22,7 +22,7 @@ import com.jun.ecommerce.domain.ProductsById;
 public class ProductsByCartRepoTest {
 
 	@Autowired
-	private ProductByCartRepository repo;
+	private ProductsByCartRepository repo;
 	private ProductsByCart cart;
 	private ProductsByCart cart2;
 	private ProductsByCart cart3;
