@@ -25,6 +25,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
@@ -32,10 +34,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jun.ecommerce.controllers.ProductController;
 import com.jun.ecommerce.domain.ProductsById;
+import com.jun.ecommerce.exceptions.ResourceExceptionHandler;
 import com.jun.ecommerce.services.ProductService;
 import com.jun.ecommerce.services.ProductServiceImpl;
 
 @ExtendWith(MockitoExtension.class)
+//@WebMvcTest(ProductController.class)
 public class ProductControllerTest {
 
 	@Autowired
@@ -49,7 +53,9 @@ public class ProductControllerTest {
 
 	@BeforeEach
 	public void setUp() {
-		mvc = MockMvcBuilders.standaloneSetup(controller).build();
+		mvc = MockMvcBuilders.standaloneSetup(controller)
+				.setControllerAdvice(ResourceExceptionHandler.class)
+				.build();
 	}
 
 	@Test

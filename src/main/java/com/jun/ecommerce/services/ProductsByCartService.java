@@ -1,7 +1,7 @@
 package com.jun.ecommerce.services;
 
 import java.util.Optional;
-import java.util.UUID;
+import java.util.function.Function;
 
 import org.springframework.stereotype.Service;
 
@@ -16,36 +16,36 @@ import lombok.RequiredArgsConstructor;
 public class ProductsByCartService {
 	private final ProductsByCartRepository repo;
 
-	public double getSubtotalFor(UUID cartId, UUID productId) {
-		Optional<ProductsByCart> optProduct = repo.findByCartIdAndProductId(productId, productId);
-		if (optProduct.isPresent()) {
-			return optProduct.get().getSubtotal();
-		} else {
-			throw new ResourceNotFoundException();
-		}
+	public double getSubtotalFor(ProductsByCart productInCart) {
+		return findTemplate(productInCart, existingProductInCart -> existingProductInCart).getSubtotal();
 	}
-
-	public ProductsByCart addNewProductToCart(ProductsByCart cart) {
-		cart.setSubtotal(cart.getPrice() * cart.getQuantity());
-		return repo.save(cart);
-	}
-
-	public ProductsByCart getExistingProduct(ProductsByCart cart) {
-		Optional<ProductsByCart> optProduct = repo.findByCartIdAndProductId(cart.getCartId(), cart.getProductId());
-		if (optProduct.isPresent()) {
-			return optProduct.get();
-		} else {
-			throw new ResourceNotFoundException();
-		}
-	}
-
-	public ProductsByCart updateQuantity(ProductsByCart cart) {
-		Optional<ProductsByCart> optProduct = repo.findByCartIdAndProductId(cart.getCartId(), cart.getProductId());
-		optProduct.ifPresent((product) -> {
-			product.setQuantity(cart.getQuantity());
-			product.setSubtotal(cart.getQuantity()* cart.getPrice());
-		});
 	
+	public ProductsByCart addNewProductToCart(ProductsByCart productInCart) {
+		productInCart.setSubtotal(productInCart.getPrice() * productInCart.getQuantity());
+		return repo.save(productInCart);
 	}
 
+	public ProductsByCart getExistingProduct(ProductsByCart productInCart) {
+		return findTemplate(productInCart, existingProductInCart -> existingProductInCart);
+	}
+
+	public ProductsByCart updateQuantity(ProductsByCart productInCart) {
+		return findTemplate(productInCart, existingCart -> {
+			existingCart.setQuantity(productInCart.getQuantity());
+			existingCart.setSubtotal(productInCart.getQuantity() * productInCart.getPrice());
+			return repo.save(existingCart);
+		});
+	}
+
+	private ProductsByCart findTemplate(ProductsByCart productInCart, 
+			Function<ProductsByCart, ProductsByCart> logic) {
+		Optional<ProductsByCart> optProduct = repo.findByCartIdAndProductId(productInCart.getCartId(), 
+				productInCart.getProductId());
+
+		if (optProduct.isPresent()) {
+			return logic.apply(optProduct.get());
+		} else {
+			throw new ResourceNotFoundException();
+		}
+	}
 }

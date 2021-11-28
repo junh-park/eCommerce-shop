@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-
 public class ResourceAlreadyExistsException extends RuntimeException {
 	private String message;
 	
