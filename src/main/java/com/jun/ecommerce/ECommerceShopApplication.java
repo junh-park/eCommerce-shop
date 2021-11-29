@@ -13,7 +13,7 @@ import com.jun.ecommerce.configuration.DataStaxAstraProperties;
 
 @SpringBootApplication(scanBasePackages = "com.jun")
 @EnableConfigurationProperties(DataStaxAstraProperties.class)
-@EnableCassandraRepositories(basePackages = "com.jun.ecommerce.data")
+//@EnableCassandraRepositories(basePackages = "com.jun.ecommerce.data")
 public class ECommerceShopApplication {
 
 	public static void main(String[] args) {

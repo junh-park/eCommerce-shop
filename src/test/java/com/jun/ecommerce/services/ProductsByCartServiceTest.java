@@ -21,7 +21,7 @@ import org.springframework.test.context.event.annotation.BeforeTestClass;
 
 import com.jun.ecommerce.data.ProductsByCartRepository;
 import com.jun.ecommerce.domain.ProductsByCart;
-@SpringBootTest
+
 @ExtendWith(MockitoExtension.class)
 public class ProductsByCartServiceTest {
 	

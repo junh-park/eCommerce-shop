@@ -83,6 +83,13 @@ public class ProductsByCartRepoTest {
 	
 	@Test
 	public void findingExistingProductInCartByCartIdAndProductId() {
+		repo.deleteByCartId(cartId);
+		repo.save(cart);
+		repo.save(cart2);
+		repo.save(cart3);
+		repo.save(cart4);
+		repo.save(cart5);
+		
 		Optional<ProductsByCart> saved = repo.findByCartIdAndProductId(cartId, productId);
 		
 		assertThat(saved.get(), is(cart));

@@ -1,6 +1,6 @@
 package com.jun.ecommerce.controller;
 
-import static org.hamcrest.Matchers.*;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -11,52 +11,42 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.List;
 import java.util.UUID;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jun.ecommerce.controllers.ProductController;
 import com.jun.ecommerce.domain.ProductsById;
-import com.jun.ecommerce.exceptions.ResourceExceptionHandler;
-import com.jun.ecommerce.services.ProductService;
 import com.jun.ecommerce.services.ProductServiceImpl;
 
-@ExtendWith(MockitoExtension.class)
-//@WebMvcTest(ProductController.class)
+//@ExtendWith(MockitoExtension.class)
+@WebMvcTest(controllers = ProductController.class)
 public class ProductControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
 
-	@Mock
-	private ProductService service;
+	@MockBean
+	private ProductServiceImpl service;
 
-	@InjectMocks
-	private ProductController controller;
-
-	@BeforeEach
-	public void setUp() {
-		mvc = MockMvcBuilders.standaloneSetup(controller)
-				.setControllerAdvice(ResourceExceptionHandler.class)
-				.build();
-	}
+//	@InjectMocks
+//	private ProductController controller;
+//
+//	@BeforeEach
+//	public void setUp() {
+//		mvc = MockMvcBuilders.standaloneSetup()
+//				.setControllerAdvice(ResourceExceptionHandler.class)
+//				.build();
+//	}
 
 	@Test
 	public void whenGetAllRequested_shoudReturnAllProduts() throws Exception {
